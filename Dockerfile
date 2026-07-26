@@ -25,9 +25,9 @@ FROM nginx:alpine
 # Copy the build output from the previous stage to Nginx serve directory
 COPY --from=build /app/dist /usr/share/nginx/html
 
-# Optional: Add custom nginx configuration if routing is needed (Vite SPA)
-# RUN rm /etc/nginx/conf.d/default.conf
-# COPY nginx.conf /etc/nginx/conf.d/
+# Add custom nginx configuration for Vite SPA routing
+RUN rm /etc/nginx/conf.d/default.conf
+COPY nginx.conf /etc/nginx/conf.d/
 
 # Expose port 80 for the server
 EXPOSE 80
