@@ -7,11 +7,14 @@ WORKDIR /app
 # Copy package.json and package-lock.json
 COPY package*.json ./
 
-# Install dependencies
-RUN npm install
+# Install ALL dependencies (explicitly including devDependencies for Vite)
+RUN npm install --include=dev
 
 # Copy the rest of the application code
 COPY . .
+
+# Set memory limit to prevent OOM errors during Vite/Rollup build
+ENV NODE_OPTIONS="--max_old_space_size=4096"
 
 # Build the Vite application for production
 RUN npm run build
